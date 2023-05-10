@@ -2,7 +2,8 @@ console.log("hello");
 
 const container = document.querySelector('#container');
 const btn = document.querySelector('#btnBox');
-const reset = document.querySelector('#reset')
+const reset = document.querySelector('#reset');
+const eraser =document.querySelector('#eraser');
 
 
 btn.addEventListener('click', () => {
@@ -54,6 +55,15 @@ function colorOnMove(e) {
     };
 };
 
+eraser.addEventListener('click', () => {
+    container.addEventListener('mousemove', (e) => {
+        const smallBox = e.target;
+        if (smallBox.classList.contains('box')) {
+            smallBox.style.backgroundColor = "white";
+        };
+    })
+})
+
 reset.addEventListener('click', () => {
     const smallBoxes = document.querySelectorAll('.box');
     
@@ -65,4 +75,4 @@ reset.addEventListener('click', () => {
 });
 
 
-container.addEventListener('mousemove', colorOnMove)
+container.addEventListener('mousemove', colorOnMove);
