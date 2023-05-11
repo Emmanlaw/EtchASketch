@@ -1,103 +1,78 @@
-console.log("hello");
-
 const container = document.querySelector('#container');
 const btn = document.querySelector('#btnBox');
 const reset = document.querySelector('#reset');
-const eraser =document.querySelector('#eraser');
+const eraser = document.querySelector('#eraser');
 const colored = document.querySelector('#colored');
 
-const containerWidth = 500;
-const containerHeight = 500;
-const boxWidth = containerWidth / 16;
-const boxHeight = containerHeight / 16;
+// Set the default color to red
+let currentColor = "red";
 
-for (let i = 0; i < 16; i++) {
-  const row = document.createElement('div');
-  row.classList.add('row');
-  
-  // create 16 boxes in each row
-  for (let j = 0; j < 16; j++) {
-    const box = document.createElement('div');
-    box.classList.add('box');
-    box.style.width = `${boxWidth}px`;
-    box.style.height = `${boxHeight}px`;
-    row.appendChild(box);
+// Add mouseover event listener to container to color boxes
+container.addEventListener('mouseover', (e) => {
+  const smallBox = e.target;
+  if (smallBox.classList.contains('box')) {
+    smallBox.style.backgroundColor = currentColor;
   }
-  container.appendChild(row);
-}
-
-
-
-
-btn.addEventListener('click', () => {
-    const numOfBoxStr = prompt('How many Box?');
-    const numOfBoxInt = parseInt(numOfBoxStr);
-
-    if (numOfBoxInt > 100) {
-        return alert("can't have more than 100");
-    }
-
-    // Remove existing rows from the container
-    while (container.firstChild) {
-        container.removeChild(container.firstChild);
-    }
-
-    // Calculate the width of the boxes based on the container' width and the number of boxes in a row
-    const containerWidth = container.offsetWidth;
-    const containerHeight = container.offsetWidth;
-    const boxWidth = (containerWidth/ numOfBoxInt) - 2; // Subtracting 2 to account for the box border
-    const boxHeight = (containerHeight/ numOfBoxInt) -2; 
-
-    
-
-    for (let i = 0; i < numOfBoxInt; i++) {
-        const row = document.createElement('div');
-        row.classList.add('row');
-        
-        // create 16 boxes in each row
-        for (let j = 0; j < numOfBoxInt; j++) {
-          const box = document.createElement('div');
-          box.classList.add('box');
-          box.style.width = `${boxWidth}px`;
-          box.style.height = `${boxHeight}px`;
-          row.appendChild(box);
-        }
-        container.appendChild(row);
-    }
 });
 
+// Change color to blue
+colored.addEventListener('click', () => {
+  currentColor = "blue";
+  console.log(currentColor);
+});
+
+// Change color to white (eraser)
+eraser.addEventListener('click', () => {
+  currentColor = "white";
+});
+
+// Reset all boxes to white
+reset.addEventListener('click', () => {
+  const smallBoxes = document.querySelectorAll('.box');
+  smallBoxes.forEach(smallBox => {
+    smallBox.style.backgroundColor = 'white';
+  });
+});
+
+// change number of boxes in container
+btn.addEventListener('click', () => {
+  const numOfBoxStr = prompt('How many boxes?');
+  const numOfBoxInt = parseInt(numOfBoxStr);
+
+  if (numOfBoxInt > 100) {
+    return alert("Can't have more than 100 boxes.");
+  }
+
+  // Remove existing rows from the container
+  while (container.firstChild) {
+    container.removeChild(container.firstChild);
+  }
+
+  // Calculate the width of the boxes based on the container's width and the number of boxes in a row
+  const containerWidth = container.offsetWidth;
+  const containerHeight = container.offsetHeight;
+  const boxWidth = (containerWidth / numOfBoxInt) - 2; // Subtracting 2 to account for the box border
+  const boxHeight = (containerHeight / numOfBoxInt) - 2;
+
+  for (let i = 0; i < numOfBoxInt; i++) {
+    const row = document.createElement('div');
+    row.classList.add('row');
+
+    // create boxes in each row based on number of boxes in a row
+    for (let j = 0; j < numOfBoxInt; j++) {
+      const box = document.createElement('div');
+      box.classList.add('box');
+      box.style.width = `${boxWidth}px`;
+      box.style.height = `${boxHeight}px`;
+      row.appendChild(box);
+    }
+
+    container.appendChild(row);
+  }
+});
+
+// set container styles
 container.style.display = 'flex';
 container.style.flexWrap = 'wrap';
 container.style.width = '500px';
 container.style.height = '500px';
-
-colored.addEventListener('click', () => {
-    container.addEventListener('mousemove', (e) => {
-        const smallBox = e.target;
-        if (smallBox.classList.contains('box')) {
-            smallBox.style.backgroundColor = "blue";
-        };
-    })
-})
-
-eraser.addEventListener('click', () => {
-    container.addEventListener('mousemove', (e) => {
-        const smallBox = e.target;
-        if (smallBox.classList.contains('box')) {
-            smallBox.style.backgroundColor = "white";
-        };
-    })
-})
-
-reset.addEventListener('click', () => {
-    const smallBoxes = document.querySelectorAll('.box');
-    
-    smallBoxes.forEach(smallBox => {
-        smallBox.style.backgroundColor = 'white';
-
-    });
-    console.log(smallBoxes);
-});
-
-
-container.addEventListener('mousemove', colorOnMove);
