@@ -4,6 +4,29 @@ const container = document.querySelector('#container');
 const btn = document.querySelector('#btnBox');
 const reset = document.querySelector('#reset');
 const eraser =document.querySelector('#eraser');
+const colored = document.querySelector('#colored');
+
+const containerWidth = 500;
+const containerHeight = 500;
+const boxWidth = containerWidth / 16;
+const boxHeight = containerHeight / 16;
+
+for (let i = 0; i < 16; i++) {
+  const row = document.createElement('div');
+  row.classList.add('row');
+  
+  // create 16 boxes in each row
+  for (let j = 0; j < 16; j++) {
+    const box = document.createElement('div');
+    box.classList.add('box');
+    box.style.width = `${boxWidth}px`;
+    box.style.height = `${boxHeight}px`;
+    row.appendChild(box);
+  }
+  container.appendChild(row);
+}
+
+
 
 
 btn.addEventListener('click', () => {
@@ -48,12 +71,14 @@ container.style.flexWrap = 'wrap';
 container.style.width = '500px';
 container.style.height = '500px';
 
-function colorOnMove(e) {
-    const smallBox = e.target;
-    if (smallBox.classList.contains('box')) {
-        smallBox.style.backgroundColor = "blue";
-    };
-};
+colored.addEventListener('click', () => {
+    container.addEventListener('mousemove', (e) => {
+        const smallBox = e.target;
+        if (smallBox.classList.contains('box')) {
+            smallBox.style.backgroundColor = "blue";
+        };
+    })
+})
 
 eraser.addEventListener('click', () => {
     container.addEventListener('mousemove', (e) => {
